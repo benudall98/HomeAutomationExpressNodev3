@@ -9,5 +9,6 @@ router.get('/get/:bookId', controller.readBook);
 router.get('/get/', controller.readAll);
 router.patch('/update/:bookId', ValidateJoi(Schemas.book.update), controller.updateBook);
 router.delete('/delete/:bookId', controller.deleteBook);
+router.get('/get/authorID', controller.readAllByAuthor);
 
 export = router;

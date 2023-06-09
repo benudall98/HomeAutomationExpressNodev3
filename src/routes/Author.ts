@@ -10,4 +10,5 @@ router.get('/get', controller.readAll);
 router.patch('/update/:authorId', ValidateJoi(Schemas.author.update), controller.updateAuthor);
 router.delete('/delete/:authorId', controller.deleteAuthor);
 
+
 export = router;

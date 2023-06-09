@@ -59,4 +59,14 @@ const deleteBook = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-export default { createBook, readBook, readAll, updateBook, deleteBook };
+//Write a function that returns all books by a given author
+const readAllByAuthor = (req: Request, res: Response, next: NextFunction) => {
+    const authorId = req.params.authorId;
+
+    return Book.find({ author: authorId })
+        .then((books) => res.status(200).json({ books }))
+        .catch((error) => res.status(500).json({ error }));
+};
+
+
+export default { createBook, readBook, readAll, updateBook, deleteBook, readAllByAuthor };
