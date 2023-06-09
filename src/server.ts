@@ -53,7 +53,7 @@ const StartServer = () => {
     router.use('/books', bookRoutes);
 
     /** Healthcheck */
-    router.get('/ping', (req, res, next) => res.status(200).json({ hello: 'world' }));
+    router.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
 
     /** Error handling */
     router.use((req, res, next) => {
