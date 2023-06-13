@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Author from '../models/Author';
+import Book from '../models/Book';
 
 const createAuthor = (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.body;
@@ -56,5 +57,6 @@ const deleteAuthor = (req: Request, res: Response, next: NextFunction) => {
         .then((author) => (author ? res.status(201).json({ author, message: 'Deleted' }) : res.status(404).json({ message: 'not found' })))
         .catch((error) => res.status(500).json({ error }));
 };
+
 
 export default { createAuthor, readAuthor, readAll, updateAuthor, deleteAuthor };

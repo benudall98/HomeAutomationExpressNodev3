@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Book from '../models/Book';
+import Author from '../models/Author';
 
 const createBook = (req: Request, res: Response, next: NextFunction) => {
     const { author, title } = req.body;
@@ -16,6 +17,7 @@ const createBook = (req: Request, res: Response, next: NextFunction) => {
         .then((book) => res.status(201).json({ book }))
         .catch((error) => res.status(500).json({ error }));
 };
+
 
 const readBook = (req: Request, res: Response, next: NextFunction) => {
     const bookId = req.params.bookId;
@@ -68,5 +70,29 @@ const readAllByAuthor = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
+//Find the Author name from a book title. The function must use the book title to find the book Id then use the book Id to find the author Id then use the author Id to find the author name. The author and book database models are linked by the author Id.
+const findAuthorNameFromBookTitle = (req: Request, res: Response, next: NextFunction) => {
+ const bookId = req.params.bookId; // Assuming the book ID is passed as a request parameter
 
-export default { createBook, readBook, readAll, updateBook, deleteBook, readAllByAuthor };
+    Book.findById(bookId)   
+    .then((book) => {
+      if (book) {
+        return Author.findById(book.author)
+          .then((author) => {
+            if (author) {
+              res.status(200).json({ author: author.name });
+            } else {
+              res.status(404).json({ message: 'Author not found' });
+            }
+          })
+          .catch((error) => res.status(500).json({ error }));
+      } else {
+        res.status(404).json({ message: 'Book not found' });
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
+
+
+
+export default { createBook, readBook, readAll, updateBook, deleteBook, readAllByAuthor, findAuthorNameFromBookTitle };
